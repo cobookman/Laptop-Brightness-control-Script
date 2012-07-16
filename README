@@ -34,7 +34,9 @@ Here are the commands for the display device acpi_video0
    chgrp users /sys/class/backlight/acpi_video0/brightness
    chmod 764 /sys/class/backlight/acpi_video0/brightness
 
-The reason for the 764 permission is to allow root, and all usernames in the users group to edit brightness.  The reason for this configuration over doing a sudo whitelist..etc, is that scripts can be hacked, and they should not be blatently 'trusted'.
+The reason for the 764 permission is to allow root, and all usernames in the users group to edit brightness.  The reason
+for this configuration over doing a sudo whitelist..etc, is that scripts can be hacked, and they should not be blatently
+'trusted'.
 
 
 
