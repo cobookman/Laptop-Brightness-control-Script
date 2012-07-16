@@ -1,20 +1,40 @@
 ==First find out what the display is called:==
-ls /sys/class/backlight/
-
+   ls /sys/class/backlight/
 If you have multiple displays you might see multiple devices listed. Please record down the display name (EX: acpi_video0)
 
 ==The second step is to find the max brightness:==
-sudo cat /sys/class/backlight/<display name here>/max_brightness<br />
+   sudo cat /sys/class/backlight/<display name here>/max_brightness<br />
 here is the command with the example device name:
-sudo cat /sys/class/backlight/acpi_video0/max_brightness
+   sudo cat /sys/class/backlight/acpi_video0/max_brightness
 
-==Now edit the upBrightness.sh if statment:
- if[ $BRIGHT -lt <MAX BRIGHTNESS HERE> ]
-
+==Now edit the upBrightness.sh if statment:==
+   if[ $BRIGHT -lt <MAX BRIGHTNESS HERE> ]
 so if your max brightness was 24,
+   if[ $BRIGHT -lt 24 ]
 
-if[ $BRIGHT -lt 24 ]
+==Edit lines 2 and 6 to point to your video device==
+aka lines: 
+   BRIGHT=$(cat /sys/class/backlight/<display name here>/brightness
+   echo "$bright" > /sys/class/backlight/<display name here>/brightness
 
-==Finally edit lines 2 and 6 to point to your video device
-aka lines: BRIGHT=$(cat /sys/class/backlight/<display name here>/brightness
-echo "$bright" > /sys/class/backlight/<display name here>/brightness
+==Fixing permission issues==
+
+For these purposes, I'm assuming your username is in the users group, if the group 'users' does not exists, run the following:
+   sudo groupadd users
+   **Replace username with your respective username:**
+   sudo useradd -G users username
+
+For arch distributions edit /etc/rc.local:
+   sudo vim /etc/rc.local
+Add the following lines, replace <display name here> with your device name (as used above)
+   chgrp users /sys/class/backlight/<display name here>/brightness
+   chmod 764 /sys/class/backlight/acpi_video0/brightness
+
+Here are the commands for the display device acpi_video0
+   chgrp users /sys/class/backlight/acpi_video0/brightness
+   chmod 764 /sys/class/backlight/acpi_video0/brightness
+
+The reason for the 764 permission is to allow root, and all usernames in the users group to edit brightness.  The reason for this configuration over doing a sudo whitelist..etc, is that scripts can be hacked, and they should not be blatently 'trusted'.
+
+
+
