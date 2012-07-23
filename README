@@ -3,7 +3,7 @@
 If you have multiple displays you might see multiple devices listed. Please record down the display name (EX: acpi_video0)
 
 ==The second step is to find the max brightness:==
-   sudo cat /sys/class/backlight/<display name here>/max_brightness<br />
+   sudo cat /sys/class/backlight/<display name here>/max_brightness
 here is the command with the example device name:
    sudo cat /sys/class/backlight/acpi_video0/max_brightness
 
